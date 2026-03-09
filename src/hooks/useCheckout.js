@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api'
+
 export function useCheckout() {
   const { items, total, clearCart } = useCart()
   const [step, setStep] = useState(1) // 1=info, 2=shipping, 3=payment, 4=success
@@ -22,7 +24,7 @@ export function useCheckout() {
       createdAt: new Date().toISOString()
     }
     try {
-      await fetch('/api/orders', {
+      await fetch(`${API_BASE}/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order)

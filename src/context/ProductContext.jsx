@@ -2,6 +2,8 @@ import { createContext, useContext, useReducer, useEffect, useCallback } from 'r
 
 const ProductContext = createContext(null)
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api'
+
 const productReducer = (state, action) => {
   switch (action.type) {
     case 'SET_PRODUCTS':
@@ -43,7 +45,7 @@ export function ProductProvider({ children }) {
   const fetchProducts = useCallback(async () => {
     dispatch({ type: 'SET_LOADING', payload: true })
     try {
-      const res = await fetch('/api/products')
+      const res = await fetch(`${API_BASE}/products`)
       if (!res.ok) throw new Error('Failed to fetch products')
       const data = await res.json()
       dispatch({ type: 'SET_PRODUCTS', payload: data })
